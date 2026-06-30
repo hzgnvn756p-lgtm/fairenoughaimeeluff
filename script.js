@@ -1,4 +1,4 @@
-// Create bubbles that burst on click/hover
+// Create bubbles that burst on click
 function createBubbles() {
     const container = document.getElementById('bubblesContainer');
     const bubbleCount = window.innerWidth > 768 ? 15 : 8;
@@ -24,15 +24,10 @@ function createBubble(container) {
     // Slightly random opacity for depth
     bubble.style.opacity = Math.random() * 0.6 + 0.4;
 
-    // Add burst effect on click
+    // Add burst effect on click - bubble disappears
     bubble.addEventListener('click', (e) => {
         e.stopPropagation();
-        burstBubble(bubble);
-    });
-
-    // Add hover effect (glow effect already in CSS)
-    bubble.addEventListener('mouseenter', () => {
-        bubble.style.pointerEvents = 'none'; // Temporarily disable to avoid re-hover during animation
+        burstBubble(bubble, container);
     });
 
     container.appendChild(bubble);
@@ -52,18 +47,13 @@ function createBubble(container) {
     }, 8000 + Math.random() * 4000);
 }
 
-function burstBubble(bubble) {
+function burstBubble(bubble, container) {
     bubble.classList.add('burst');
     bubble.style.pointerEvents = 'none';
 
-    // Remove the bubble after animation
+    // Remove the bubble after animation (don't create a new one)
     setTimeout(() => {
         bubble.remove();
-        // Create a new one to replace it
-        const container = document.getElementById('bubblesContainer');
-        if (container) {
-            createBubble(container);
-        }
     }, 600);
 }
 
